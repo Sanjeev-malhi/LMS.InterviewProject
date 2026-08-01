@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="LMS.API/LMS.API.csproj" />
+    <Project Path="LMS.Application/LMS.Application.csproj" />
+    <Project Path="LMS.Domain/LMS.Domain.csproj" />
+    <Project Path="LMS.Infrastructure/LMS.Infrastructure.csproj" />
+  </Folder>
+</Solution>
