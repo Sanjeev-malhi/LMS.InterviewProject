@@ -1,4 +1,4 @@
-﻿using LMS.Infrastructure.Identity;
+﻿using LMS.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,5 +11,7 @@ namespace LMS.Infrastructure.Persistence
             : base(options)
         {
         }
+
+        public DbSet<Course> Courses => Set<Course>();
     }
 }
