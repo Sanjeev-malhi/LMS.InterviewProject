@@ -1,5 +1,7 @@
-﻿using LMS.Domain.Entities;
+﻿using LMS.Application.Interfaces;
+using LMS.Domain.Entities;
 using LMS.Infrastructure.Persistence;
+using LMS.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +24,10 @@ public static class DependencyInjection
         services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+        services.AddScoped<IAuthService, AuthService>();
+
+        services.AddScoped<IJwtTokenService, JwtTokenService>();
 
 
         return services;
