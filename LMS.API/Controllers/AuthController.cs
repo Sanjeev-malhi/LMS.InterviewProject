@@ -1,6 +1,9 @@
 ﻿using LMS.Application.DOTs.Authentication;
+using LMS.Domain.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LMS.API.Controllers
 {
@@ -35,6 +38,32 @@ namespace LMS.API.Controllers
                 return Unauthorized(response);
 
             return Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet("profile")]
+        public IActionResult Profile()
+        {
+            return Ok(new
+            {
+                Message = "Welcome to LMS",
+
+                UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+
+                Email = User.FindFirstValue(ClaimTypes.Email),
+
+                UserName = User.Identity?.Name
+            });
+        }
+
+        [Authorize(Roles = Roles.Admin)]
+        [HttpGet("admin")]
+        public IActionResult AdminOnly()
+        {
+            return Ok(new
+            {
+                Message = "Welcome Admin"
+            });
         }
     }
 }
