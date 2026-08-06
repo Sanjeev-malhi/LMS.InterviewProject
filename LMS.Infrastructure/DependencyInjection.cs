@@ -1,4 +1,5 @@
-﻿using LMS.Application.Interfaces;
+﻿using LMS.Application.Configuration;
+using LMS.Application.Interfaces;
 using LMS.Domain.Entities;
 using LMS.Infrastructure.Persistence;
 using LMS.Infrastructure.Services;
@@ -28,6 +29,12 @@ public static class DependencyInjection
         services.AddScoped<IAuthService, AuthService>();
 
         services.AddScoped<IJwtTokenService, JwtTokenService>();
+
+        services.Configure<AzureStorageSettings>(
+        configuration.GetSection("AzureStorage"));
+
+        services.AddScoped<IBlobStorageService,
+                           AzureBlobStorageService>();
 
 
         return services;
