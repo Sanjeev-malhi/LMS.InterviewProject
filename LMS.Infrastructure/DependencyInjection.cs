@@ -33,8 +33,9 @@ public static class DependencyInjection
         services.Configure<AzureStorageSettings>(
         configuration.GetSection("AzureStorage"));
 
-        services.AddScoped<IBlobStorageService,
-                           AzureBlobStorageService>();
+        services.AddScoped<IBlobStorageService, AzureBlobStorageService>();
+
+        services.AddScoped<IAzureQueueService, AzureQueueService>();
 
 
         return services;
