@@ -1,4 +1,5 @@
 ﻿using LMS.Application.DOTs.Authentication;
+using LMS.Application.DOTs.Messages;
 using LMS.Application.Interfaces;
 using LMS.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -13,15 +14,18 @@ namespace LMS.Infrastructure.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IJwtTokenService _jwtTokenService;
+        private readonly IAzureQueueService _queueService;
 
         public AuthService(
            UserManager<ApplicationUser> userManager,
            SignInManager<ApplicationUser> signInManager,
-           IJwtTokenService jwtTokenService)
+           IJwtTokenService jwtTokenService,
+           IAzureQueueService queueService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jwtTokenService = jwtTokenService;
+            _queueService = queueService;
         }
 
         public async Task<AuthenticationResponse> RegisterAsync(RegisterRequest request)
@@ -55,6 +59,13 @@ namespace LMS.Infrastructure.Services
                     Message = string.Join(", ", result.Errors.Select(x => x.Description))
                 };
             }
+
+            await _queueService.EnqueueAsync(new UserRegisteredEvent
+            {
+                Email = user.Email,
+                UserId = user.Id,
+                RegistrationOn = DateTime.UtcNow
+            });
 
             return new AuthenticationResponse
             {
