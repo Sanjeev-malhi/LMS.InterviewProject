@@ -1,5 +1,5 @@
 ﻿using LMS.Application.DOTs.Authentication;
-using LMS.Application.DOTs.Messages;
+using LMS.Application.Events;
 using LMS.Application.Interfaces;
 using LMS.Domain.Entities;
 using Microsoft.AspNetCore.Identity;

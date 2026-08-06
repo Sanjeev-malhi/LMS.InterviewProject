@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DOTs\Messages\" />
     <Folder Include="Features\" />
     <Folder Include="Behavious\" />
     <Folder Include="Exceptions\" />

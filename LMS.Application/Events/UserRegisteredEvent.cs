@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LMS.Application.DOTs.Messages
+namespace LMS.Application.Events
 {
     public class UserRegisteredEvent
     {
