@@ -8,4 +8,5 @@
     <Project Path="LMS.Domain/LMS.Domain.csproj" />
     <Project Path="LMS.Infrastructure/LMS.Infrastructure.csproj" />
   </Folder>
+  <Project Path="LMS.Functions/LMS.Functions.csproj" Id="8bfe5c58-cf19-49d3-bed4-d11632c631b8" />
 </Solution>
