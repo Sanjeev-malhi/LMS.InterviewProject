@@ -1,5 +1,6 @@
 using Azure.Storage.Queues.Models;
 using LMS.Application.Events;
+using LMS.Functions.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,26 +11,34 @@ namespace LMS.Functions;
 public class UserRegisteredFunction
 {
     private readonly ILogger<UserRegisteredFunction> _logger;
+    private readonly IUserRegistrationProcessor _processor;
 
-    public UserRegisteredFunction(ILogger<UserRegisteredFunction> logger)
+    public UserRegisteredFunction(ILogger<UserRegisteredFunction> logger, IUserRegistrationProcessor processor)
     {
         _logger = logger;
+        _processor = processor;
     }
 
     [Function(nameof(UserRegisteredFunction))]
-    public void Run(
+    public async Task Run(
     [QueueTrigger("user-registration", Connection = "AzureWebJobsStorage")]
-    string message)
+    UserRegisteredEvent message,
+    FunctionContext context,
+    CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Message received.");
-
-        _logger.LogInformation(message);
-
-        var user =
-            JsonSerializer.Deserialize<UserRegisteredEvent>(message);
-
+        var bindingData = context.BindingContext.BindingData;
+        _logger.LogInformation("========================================");
         _logger.LogInformation(
-            "User : {Email}",
-            user?.Email);
+            "Message Id : {Id}",
+            bindingData["Id"]);
+
+        _logger.LogInformation("Dequeue Count : {count}", bindingData["DequeueCount"]);
+
+        _logger.LogInformation("Inseration Time : {InserationTime}", bindingData["InsertionTime"]);
+
+        _logger.LogInformation("========================================");
+
+        await _processor.ProcessAsync(message, cancellationToken);
+
     }
 }
