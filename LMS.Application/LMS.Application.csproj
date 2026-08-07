@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Behavious\**" />
+    <Compile Remove="DOTs\Messages\**" />
+    <Compile Remove="Exceptions\**" />
+    <Compile Remove="Features\**" />
+    <EmbeddedResource Remove="Behavious\**" />
+    <EmbeddedResource Remove="DOTs\Messages\**" />
+    <EmbeddedResource Remove="Exceptions\**" />
+    <EmbeddedResource Remove="Features\**" />
+    <None Remove="Behavious\**" />
+    <None Remove="DOTs\Messages\**" />
+    <None Remove="Exceptions\**" />
+    <None Remove="Features\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="MediatR" Version="14.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.10" />
@@ -14,13 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LMS.Domain\LMS.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DOTs\Messages\" />
-    <Folder Include="Features\" />
-    <Folder Include="Behavious\" />
-    <Folder Include="Exceptions\" />
   </ItemGroup>
 
 </Project>

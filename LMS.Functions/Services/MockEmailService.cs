@@ -1,0 +1,23 @@
+﻿using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace LMS.Functions.Services
+{
+    public class MockEmailService : IEmailService
+    {
+        private readonly ILogger<MockEmailService> _logger;
+        public MockEmailService(ILogger<MockEmailService> logger)
+        {
+            _logger = logger;
+        }
+        public async Task SendWelcomeEmailAsync(string email, CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation("--------------");
+            _logger.LogInformation("Sending email", email);
+            _logger.LogInformation("Welcome email has been sent carefully");
+            _logger.LogInformation("---------------");
+        }
+    }
+}
