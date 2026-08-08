@@ -2,6 +2,7 @@
 using LMS.Application.Interfaces;
 using LMS.Domain.Entities;
 using LMS.Infrastructure.Persistence;
+using LMS.Infrastructure.Repositiories;
 using LMS.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,10 @@ public static class DependencyInjection
         services.AddScoped<IBlobStorageService, AzureBlobStorageService>();
 
         services.AddScoped<IAzureQueueService, AzureQueueService>();
+
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<IEmailHistoryRepository, EmailHistoryRepository>();
 
 
         return services;

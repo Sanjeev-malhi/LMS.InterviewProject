@@ -1,4 +1,5 @@
 ﻿using LMS.Application.Events;
+using LMS.Application.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,17 @@ namespace LMS.Functions.Services
     {
         private readonly IEmailService _emailService;
         private readonly ILogger<UserRegistrationProcessor> _logger;
-        public UserRegistrationProcessor(IEmailService emailService, ILogger<UserRegistrationProcessor> logger)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailHistoryRepository _repository;
+        public UserRegistrationProcessor(IEmailService emailService, 
+                                         ILogger<UserRegistrationProcessor> logger,
+                                         IUnitOfWork unitOfWork,
+                                         IEmailHistoryRepository repository)
         {
             _emailService = emailService;
             _logger = logger;
+            _unitOfWork = unitOfWork;
+            _repository = repository;
         }
         public async Task ProcessAsync(UserRegisteredEvent userEvent, CancellationToken cancellationToken)
         {
