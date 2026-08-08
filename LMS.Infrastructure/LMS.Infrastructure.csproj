@@ -7,6 +7,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Repositories\**" />
+	  <EmbeddedResource Remove="Repositories\**" />
+	  <None Remove="Repositories\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 
@@ -34,7 +40,6 @@
 		<Folder Include="Identity\" />
 		<Folder Include="Persistence\Services\" />
 		<Folder Include="Persistence\Repositories\" />
-		<Folder Include="Repositories\" />
 	</ItemGroup>
 
 </Project>

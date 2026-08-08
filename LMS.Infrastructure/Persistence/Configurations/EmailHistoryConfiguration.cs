@@ -45,6 +45,9 @@ namespace LMS.Infrastructure.Persistence.Configurations
 
             builder.HasIndex(x => x.CreatedOn);
 
+            builder.HasIndex(x => x.EventId)
+                   .IsUnique();
+
         }
     }
 }
