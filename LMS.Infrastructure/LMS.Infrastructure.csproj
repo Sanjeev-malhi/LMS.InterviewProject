@@ -32,6 +32,8 @@
 
 	<ItemGroup>
 		<Folder Include="Identity\" />
+		<Folder Include="Persistence\Services\" />
+		<Folder Include="Persistence\Repositories\" />
 		<Folder Include="Repositories\" />
 	</ItemGroup>
 
