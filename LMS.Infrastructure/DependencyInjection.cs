@@ -23,7 +23,7 @@ public static class DependencyInjection
                 configuration.GetConnectionString("DefaultConnection"));
         });
 
-        services.AddIdentity<ApplicationUser, IdentityRole>()
+        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
@@ -41,6 +41,14 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped<IEmailHistoryRepository, EmailHistoryRepository>();
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration["Redis:ConnectionString"];
+            options.InstanceName = "LMS";
+        });
+
+        services.AddScoped<ICacheService, RedisCacheService>();
 
 
         return services;
