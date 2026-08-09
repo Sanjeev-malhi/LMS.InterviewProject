@@ -8,7 +8,7 @@ namespace LMS.Infrastructure.Seeders;
 public static class IdentitySeeder
 {
     public static async Task SeedAsync(
-        RoleManager<IdentityRole> roleManager,
+        RoleManager<IdentityRole<Guid>> roleManager,
         UserManager<ApplicationUser> userManager)
     {
         await SeedRoles(roleManager);
@@ -19,7 +19,7 @@ public static class IdentitySeeder
     }
 
     private static async Task SeedRoles(
-        RoleManager<IdentityRole> roleManager)
+        RoleManager<IdentityRole<Guid>> roleManager)
     {
         string[] roles =
         {
@@ -32,7 +32,11 @@ public static class IdentitySeeder
         {
             if (!await roleManager.RoleExistsAsync(role))
             {
-                await roleManager.CreateAsync(new IdentityRole(role));
+                await roleManager.CreateAsync(new IdentityRole<Guid>
+                {
+                    Name = role,
+                    NormalizedName = role.ToUpperInvariant()
+                });
             }
         }
     }

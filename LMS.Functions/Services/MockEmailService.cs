@@ -14,10 +14,8 @@ namespace LMS.Functions.Services
         }
         public async Task SendWelcomeEmailAsync(string email, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation("--------------");
-            _logger.LogInformation("Sending email", email);
-            _logger.LogInformation("Welcome email has been sent carefully");
-            _logger.LogInformation("---------------");
+                _logger.LogInformation("Welcome email has been sent carefully");
+            await Task.CompletedTask;
         }
     }
 }

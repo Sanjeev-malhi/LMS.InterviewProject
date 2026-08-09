@@ -134,7 +134,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     var roleManager =
-        services.GetRequiredService<RoleManager<IdentityRole>>();
+        services.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
     var userManager =
         services.GetRequiredService<UserManager<ApplicationUser>>();

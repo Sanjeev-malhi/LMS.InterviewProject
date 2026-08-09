@@ -6,9 +6,9 @@ namespace LMS.Application.Events
 {
     public class UserRegisteredEvent
     {
-        public Guid EventId { get; set; } = new Guid();
+        public Guid EventId { get; set; } = Guid.NewGuid();
 
-        public string UserId { get; set; } = string.Empty;
+        public Guid UserId { get; set; }
 
         public string Email { get; set; } = string.Empty;
 
