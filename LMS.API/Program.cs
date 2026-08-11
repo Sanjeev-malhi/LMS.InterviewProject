@@ -1,18 +1,21 @@
+using LMS.Application;
 using LMS.Application.Configuration;
+using LMS.Domain.Entities;
 using LMS.Infrastructure;
+using LMS.Infrastructure.Seeders;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using LMS.Infrastructure.Seeders;
-using Microsoft.AspNetCore.Identity;
-using LMS.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add Controllers
 builder.Services.AddControllers();
+
+builder.Services.AddApplication();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
