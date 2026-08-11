@@ -50,6 +50,8 @@ public static class DependencyInjection
 
         services.AddScoped<ICacheService, RedisCacheService>();
 
+        services.AddScoped<ICourseRepository, CourseRepository>();
+
 
         return services;
     }
