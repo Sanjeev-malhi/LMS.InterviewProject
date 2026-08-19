@@ -8,6 +8,8 @@ namespace LMS.Application.Events
     {
         public Guid EventId { get; set; } = Guid.NewGuid();
 
+        public string CorrelationId { get; set; }
+
         public Guid UserId { get; set; }
 
         public string Email { get; set; } = string.Empty;

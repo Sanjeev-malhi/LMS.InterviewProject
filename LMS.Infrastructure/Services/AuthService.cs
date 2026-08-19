@@ -28,7 +28,7 @@ namespace LMS.Infrastructure.Services
             _queueService = queueService;
         }
 
-        public async Task<AuthenticationResponse> RegisterAsync(RegisterRequest request)
+        public async Task<AuthenticationResponse> RegisterAsync(RegisterRequest request, string correlationId)
         {
             var existingUser = await _userManager.FindByEmailAsync(request.Email);
 
@@ -64,7 +64,8 @@ namespace LMS.Infrastructure.Services
             {
                 Email = user.Email,
                 UserId = user.Id,
-                RegistrationOn = DateTime.UtcNow
+                RegistrationOn = DateTime.UtcNow,
+                CorrelationId = correlationId
             });
 
             return new AuthenticationResponse

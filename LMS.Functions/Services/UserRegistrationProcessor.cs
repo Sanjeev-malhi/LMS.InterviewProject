@@ -2,6 +2,7 @@
 using LMS.Application.Interfaces;
 using LMS.Domain.Entities;
 using LMS.Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -27,13 +28,11 @@ namespace LMS.Functions.Services
         }
         public async Task ProcessAsync(UserRegisteredEvent userEvent, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Precessing User Registration. EventId: {EventId}, UserId: {UserId}", 
-                                   userEvent.EventId, userEvent.UserId);
+            _logger.LogInformation(
+                "Processing User Registration. EventId: {EventId}, UserId: {UserId}, CorrelationId: {CorrelationId}",
+                userEvent.EventId, userEvent.UserId, userEvent.CorrelationId);
 
-            var existingEmailHistory =
-                await _repository.GetByEventIdAsync(
-                userEvent.EventId,
-                cancellationToken);
+            var existingEmailHistory = await _repository.GetByEventIdAsync(userEvent.EventId, cancellationToken);
 
             EmailHistory emailHistory;
 
@@ -42,28 +41,24 @@ namespace LMS.Functions.Services
                 if (existingEmailHistory.Status == EmailStatus.Send)
                 {
                     _logger.LogInformation(
-                        "Email already successfully processed. " +
-                        "Skipping duplicate event. EventId: {EventId}",
-                        userEvent.EventId);
-
+                        "Email already successfully processed. Skipping duplicate event. EventId: {EventId}, CorrelationId: {CorrelationId}",
+                        userEvent.EventId, userEvent.CorrelationId);
                     return;
                 }
 
                 _logger.LogInformation(
-                    "Existing email record found with status {Status}. " +
-                    "Retrying email processing. EventId: {EventId}",
-                    existingEmailHistory.Status,
-                    userEvent.EventId);
+                    "Existing email record found with status {Status}. Retrying. EventId: {EventId}, CorrelationId: {CorrelationId}",
+                    existingEmailHistory.Status, userEvent.EventId, userEvent.CorrelationId);
 
                 emailHistory = existingEmailHistory;
             }
-
             else
             {
                 emailHistory = new EmailHistory
                 {
                     Id = Guid.NewGuid(),
                     EventId = userEvent.EventId,
+                    CorrelationId = userEvent.CorrelationId,
                     UserId = userEvent.UserId,
                     Email = userEvent.Email,
                     EmailType = EmailType.Welcome,
@@ -74,12 +69,18 @@ namespace LMS.Functions.Services
                     CreatedOn = DateTime.UtcNow
                 };
 
-                await _repository.AddAsync(
-                    emailHistory,
-                    cancellationToken);
-
-                await _unitOfWork.SaveChangesAsync(
-                    cancellationToken);
+                try
+                {
+                    await _repository.AddAsync(emailHistory, cancellationToken);
+                    await _unitOfWork.SaveChangesAsync(cancellationToken);
+                }
+                catch (DbUpdateException ex)
+                {
+                    _logger.LogInformation(
+                        "Concurrent duplicate insert detected. EventId: {EventId}, CorrelationId: {CorrelationId}",
+                        userEvent.EventId, userEvent.CorrelationId);
+                    return;
+                }
             }
 
             try
@@ -94,9 +95,8 @@ namespace LMS.Functions.Services
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 _logger.LogInformation(
-                "Email successfully processed. EventId: {EventId}",
-                userEvent.EventId);
-
+                    "Email successfully processed. EventId: {EventId}, CorrelationId: {CorrelationId}",
+                    userEvent.EventId, userEvent.CorrelationId);
             }
             catch (Exception ex)
             {
@@ -106,12 +106,11 @@ namespace LMS.Functions.Services
                 emailHistory.LastModifiedOn = DateTime.UtcNow;
 
                 _repository.Update(emailHistory);
-
                 await _unitOfWork.SaveChangesAsync(cancellationToken);
 
                 _logger.LogError(ex,
-                "Email processing failed. EventId: {EventId}",
-                userEvent.EventId);
+                    "Email processing failed. EventId: {EventId}, CorrelationId: {CorrelationId}",
+                    userEvent.EventId, userEvent.CorrelationId);
 
                 throw;
             }
