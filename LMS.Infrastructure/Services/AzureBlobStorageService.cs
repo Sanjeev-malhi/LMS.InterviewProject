@@ -18,7 +18,7 @@ namespace LMS.Infrastructure.Services
             _containerClient =
                 new BlobContainerClient(
                     settings.ConnectionString,
-                    settings.ContainerName);
+                    settings.UserRegistrationQueueName);
         }
 
         public async Task<string> UploadAsync(IFormFile file)

@@ -60,7 +60,7 @@ namespace LMS.Infrastructure.Services
                 };
             }
 
-            await _queueService.EnqueueAsync(new UserRegisteredEvent
+            await _queueService.EnqueueAsync("user-registration", new UserRegisteredEvent
             {
                 Email = user.Email,
                 UserId = user.Id,
