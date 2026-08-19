@@ -27,16 +27,16 @@ public class UserRegisteredFunction
     CancellationToken cancellationToken)
     {
         var bindingData = context.BindingContext.BindingData;
-        _logger.LogInformation(
-        "Message Id: {MessageId}",
-        bindingData["Id"]);
+        using (_logger.BeginScope(new Dictionary<string, object>
+        {
+            ["CorrelationId"] = message.CorrelationId,
+            ["EventId"] = message.EventId
+        }))
+        {
+            _logger.LogInformation("Message Id: {MessageId}", bindingData["Id"]);
+            _logger.LogInformation("Dequeue Count: {DequeueCount}", bindingData["DequeueCount"]);
 
-        _logger.LogInformation(
-        "Dequeue Count: {DequeueCount}",
-        bindingData["DequeueCount"]);
-
-        await _processor.ProcessAsync(
-         message,
-         context.CancellationToken);
+            await _processor.ProcessAsync(message, context.CancellationToken);
+        }
     }
 }

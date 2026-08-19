@@ -21,7 +21,8 @@ namespace LMS.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
-            var response = await _authService.RegisterAsync(request);
+            var correlationId = HttpContext.TraceIdentifier;
+            var response = await _authService.RegisterAsync(request, correlationId);
 
             if (!response.IsSuccess)
                 return BadRequest(response);

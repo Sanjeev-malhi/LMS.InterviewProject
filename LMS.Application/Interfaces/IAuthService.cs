@@ -5,7 +5,7 @@ using System.Text;
 
 public interface IAuthService
 {
-    Task<AuthenticationResponse> RegisterAsync(RegisterRequest request);
+    Task<AuthenticationResponse> RegisterAsync(RegisterRequest request, string correlationId);
 
     Task<LoginResponseDto> LoginAsync(LoginRequestDto request);
 }

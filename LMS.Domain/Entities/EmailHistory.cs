@@ -31,4 +31,6 @@ public class EmailHistory
     public DateTime? LastModifiedOn { get; set; }
 
     public Guid EventId { get; set; }
+
+    public string CorrelationId { get; set; } = string.Empty;
 }
