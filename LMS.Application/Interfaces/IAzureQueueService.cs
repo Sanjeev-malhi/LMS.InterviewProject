@@ -10,6 +10,6 @@ namespace LMS.Application.Interfaces
     /// </summary>
     public interface IAzureQueueService
     {
-        Task EnqueueAsync<T>(T message, CancellationToken cancellationToken = default);
+        Task EnqueueAsync<T>(string queueName, T message, CancellationToken cancellationToken = default);
     }
 }

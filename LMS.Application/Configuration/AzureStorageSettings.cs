@@ -6,6 +6,8 @@
 
         public string ContainerName { get; set; } = string.Empty;
 
-        public string QueueName { get; set; } = string.Empty;
+        public string UserRegistrationQueueName { get; set; } = string.Empty;
+
+        public string PaymentQueueName { get; set; } = string.Empty;
     }
 }
