@@ -52,6 +52,8 @@ public static class DependencyInjection
 
         services.AddScoped<ICourseRepository, CourseRepository>();
 
+        services.AddScoped<IWebhookSignatureValidator, HmacWebhookSignatureValidator>();
+
 
         return services;
     }

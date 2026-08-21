@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +18,8 @@ namespace LMS.Application.Events
         public decimal Amount { get; set; }
 
         public DateTimeOffset PaymentDate { get; set; }
+
+        public string CorrelationId { get; set; } = string.Empty;
 
     }
 }
