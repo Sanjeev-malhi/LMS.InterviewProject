@@ -17,6 +17,8 @@ namespace LMS.Infrastructure.Persistence
         public DbSet<Course> Courses => Set<Course>();
         public DbSet<EmailHistory> EmailHistories => Set<EmailHistory>();
 
+        public DbSet<Enrollment> Enrollments => Set<Enrollment>();
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
