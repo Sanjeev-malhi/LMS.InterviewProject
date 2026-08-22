@@ -19,6 +19,8 @@ namespace LMS.Infrastructure.Persistence
 
         public DbSet<Enrollment> Enrollments => Set<Enrollment>();
 
+        public DbSet<FailedEvents> FailedEvents => Set<FailedEvents>();
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

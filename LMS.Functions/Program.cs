@@ -21,6 +21,7 @@ builder.Services.AddScoped<IUserRegistrationProcessor, UserRegistrationProcessor
 builder.Services.AddScoped<IEmailService, MockEmailService>();
 builder.Services.AddScoped<IEnrollmentRepository, EnrollmentRepository>();
 builder.Services.AddScoped<IPaymentEventProcessor, PaymentEventProcessor>();
+builder.Services.AddScoped<IFailedEventRepository, FailedEventRepository>();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
